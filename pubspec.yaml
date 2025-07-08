@@ -1,0 +1,33 @@
+name: happit_tracker
+description: A cute habit tracker app with Happy the cat.
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.7.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  shared_preferences: ^2.1.1
+  intl: ^0.18.1
+  flutter_svg: ^2.0.10
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/emotions/1.png
+    - assets/emotions/2.png
+    - assets/emotions/3.png
+    - assets/emotions/4.png
+    - assets/emotions/5.png
+    - assets/emotions/6.png
+    - assets/emotions/7.png
+    - assets/emotions/8.png
+    - assets/emotions/9.png
+    - assets/ICON.svg
