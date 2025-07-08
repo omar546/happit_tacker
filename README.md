@@ -37,8 +37,7 @@ Happy’s emotions are based on:
 ---
 
 ## 📸 Screenshots <br>
-
-![on git hub show apps](https://github.com/user-attachments/assets/20baec3f-2830-4587-8adb-f8f00b4e8478)
+![on git hub show apps](https://github.com/user-attachments/assets/d9f9a916-f65b-422f-b5a7-4c79a0cfe1c3)
 
 ---
 
