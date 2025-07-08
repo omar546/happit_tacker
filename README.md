@@ -42,6 +42,8 @@ Happy’s emotions are based on:
 
 ## 🚀 Getting Started
 
+you can try it by downloading it directly and safely from <a href="https://download1590.mediafire.com/81elzvzvwzdgs5R9_six5DuvBhpYTevOB5BcNVm7BL4hEyNGnFk8313KEUgdbbUsuKfxZQGIR_Eyk0S-ogtJDbxAemy0w8wCkJHeOwQWYuN95FDqdZbXZVAeQ3Aic0AvBxzDeVZfAoLlkOeUXYQkYClPDw-pFEliL-DmFMkcSEgs/zias0rtovbfoase/HappitTracker.apk">HERE</a></h3>
+
 ### Prerequisites
 
 - Flutter 3.x
