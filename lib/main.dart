@@ -169,14 +169,22 @@ class _HomePageState extends State<HomePage> {
                 style: const TextStyle(fontSize: 16, color: Color(0xFFEFA68F)),
               ),
               const Spacer(),
-              ElevatedButton(
-                onPressed: markAsDone,
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
-                  backgroundColor: Color(0xFFD05E35),
+              if (lastDoneDate == null ||
+                  DateTime(today.year, today.month, today.day)
+                      .difference(DateTime(lastDoneDate!.year, lastDoneDate!.month, lastDoneDate!.day))
+                      .inDays > 0)
+                ElevatedButton(
+                  onPressed: markAsDone,
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                    backgroundColor: Color(0xFFD05E35),
+                  ),
+                  child: const Text(
+                    'Mark as Done',
+                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
                 ),
-                child: const Text('Mark as Done',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),),
-              ),
+
               const SizedBox(height: 40),
             ],
           ),
