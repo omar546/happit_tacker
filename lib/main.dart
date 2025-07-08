@@ -5,12 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(const HappitTracker());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
+  final showOnboarding = prefs.getBool('showOnboarding') ?? true;
+  runApp(HappitTracker(showOnboarding: showOnboarding));
 }
 
 class HappitTracker extends StatelessWidget {
-  const HappitTracker({super.key});
+  final bool showOnboarding;
+  const HappitTracker({super.key, required this.showOnboarding});
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +30,11 @@ class HappitTracker extends StatelessWidget {
           foregroundColor: Colors.white,
         ),
       ),
-      home: const OnboardingScreen(),
+      home: showOnboarding ? const OnboardingScreen() : const HomePage(),
     );
   }
 }
+
 
 
 class Habit {
@@ -92,7 +97,9 @@ class OnboardingScreen extends StatelessWidget {
                 backgroundColor: Colors.orangeAccent,
                 padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
               ),
-              onPressed: () {
+              onPressed: () async {
+                final prefs = await SharedPreferences.getInstance();
+                await prefs.setBool('showOnboarding', false);
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (_) => const HomePage()),
                 );
