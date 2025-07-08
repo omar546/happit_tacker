@@ -336,7 +336,30 @@ class _HomePageState extends State<HomePage> {
                     ),
                     IconButton(
                       icon: const Icon(Icons.delete, color: Colors.redAccent),
-                      onPressed: () => deleteHabit(index),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            backgroundColor: const Color(0xFF1E1E1E),
+                            title: const Text("Delete Habit", style: TextStyle(color: Colors.white)),
+                            content: const Text("Are you sure you want to delete this habit?", style: TextStyle(color: Colors.white70)),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: const Text("Cancel", style: TextStyle(color: Colors.grey)),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  deleteHabit(index);
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text("Delete", style: TextStyle(color: Colors.redAccent)),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+
                     )
                   ],
                 ),
