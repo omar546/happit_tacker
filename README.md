@@ -1,7 +1,7 @@
 # 🐱 Happit Tracker
 
 **Happit Tracker** is a cute and simple habit tracking app powered by a virtual cat named **Happy**.  
-When you keep up with your habits, Happy grows happier — miss a day, and Happy gets a little sad.
+When you keep up with your habits, Happy grows happier miss a day, and Happy gets a little sad.
 
 This app is perfect for visual habit motivation with a charming emotional feedback system.
 
