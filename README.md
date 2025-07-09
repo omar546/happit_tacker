@@ -40,7 +40,8 @@ Happy’s emotions are based on:
 ![on git hub show apps](https://github.com/user-attachments/assets/d9f9a916-f65b-422f-b5a7-4c79a0cfe1c3)
 
 ---
-
+You can try  it now by downloading the app from releases
+---
 ### Prerequisites
 
 - Flutter 3.x
