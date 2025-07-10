@@ -133,11 +133,36 @@ class _HomePageState extends State<HomePage> {
   Future<void> loadHabits() async {
     final prefs = await SharedPreferences.getInstance();
     final habitsString = prefs.getString('habits');
+
     if (habitsString != null) {
       final decoded = List<Map<String, dynamic>>.from(jsonDecode(habitsString));
+      final todayDateOnly = DateTime(today.year, today.month, today.day);
+
+      bool updated = false;
+
       setState(() {
-        habits = decoded.map((json) => Habit.fromJson(json)).toList();
+        habits = decoded.map((json) {
+          final h = Habit.fromJson(json);
+
+          if (h.lastDoneDate != null) {
+            final lastDateOnly = DateTime(h.lastDoneDate!.year, h.lastDoneDate!.month, h.lastDoneDate!.day);
+            final missedDays = todayDateOnly.difference(lastDateOnly).inDays;
+
+            if (missedDays > 0) {
+              h.heartCount = (h.heartCount - missedDays).clamp(0, 5);
+              h.streakCount = 0;
+              updated = true;
+            }
+          }
+
+          return h;
+        }).toList();
       });
+
+      if (updated) {
+        saveHabits(); // Save updated penalties immediately
+      }
+
     } else {
       await Future.delayed(const Duration(milliseconds: 500));
       askForFirstHabit();
