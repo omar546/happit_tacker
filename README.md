@@ -1,7 +1,7 @@
 # 🐱 Happit Tracker
 
 **Happit Tracker** is a cute and simple habit tracking app powered by a virtual cat named **Happy**.  
-When you keep up with your habits, Happy grows happier — miss a day, and Happy gets a little sad.
+When you keep up with your habits, Happy grows happier miss a day, and Happy gets a little sad.
 
 This app is perfect for visual habit motivation with a charming emotional feedback system.
 
@@ -36,14 +36,12 @@ Happy’s emotions are based on:
 
 ---
 
-## 📸 Screenshots (Coming Soon)
+## 📸 Screenshots <br>
+![on git hub show apps](https://github.com/user-attachments/assets/d9f9a916-f65b-422f-b5a7-4c79a0cfe1c3)
 
 ---
-
-## 🚀 Getting Started
-
-you can try it by downloading it directly and safely from <a href="https://download1590.mediafire.com/81elzvzvwzdgs5R9_six5DuvBhpYTevOB5BcNVm7BL4hEyNGnFk8313KEUgdbbUsuKfxZQGIR_Eyk0S-ogtJDbxAemy0w8wCkJHeOwQWYuN95FDqdZbXZVAeQ3Aic0AvBxzDeVZfAoLlkOeUXYQkYClPDw-pFEliL-DmFMkcSEgs/zias0rtovbfoase/HappitTracker.apk">HERE</a></h3>
-
+- You can try it now by downloading the app from the [releases](../../releases) or the [deployed web version](https://happit-tacker.vercel.app/)
+---
 ### Prerequisites
 
 - Flutter 3.x
