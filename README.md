@@ -23,16 +23,16 @@ Happy’s emotions are based on:
 - Number of hearts (your health level)
 - Your current streak count
 
-| Hearts | Streak        | Emotion Level | File        |
-|--------|---------------|---------------|-------------|
-| 0      | —             | Very Sad 😿    | `1.png`     |
-| 1      | —             | Sad 😢         | `2.png`     |
-| 2      | —             | Nervous 😟     | `3.png`     |
-| 3      | —             | Sleepy 😴      | `4.png`     |
-| 4      | —             | Neutral 🙂      | `5.png`     |
-| 5      | <10           | Happy 😺       | `6.png`     |
-| 5      | ≥10           | Very Happy 😸  | `8.png`     |
-| 5      | ≥30           | Ecstatic 🤩    | `9.png`     |
+| Hearts | Streak        | Emotion Level |
+|--------|---------------|---------------|
+| 0      | —             | Very Sad 😿    |
+| 1      | —             | Sad 😢         |
+| 2      | —             | Nervous 😟     |
+| 3      | —             | Sleepy 😴      |
+| 4      | —             | Neutral 🙂      |
+| 5      | <10           | Happy 😺       |
+| 5      | ≥10           | Very Happy 😸  |
+| 5      | ≥30           | Ecstatic 🤩    |
 
 ---
 
