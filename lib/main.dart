@@ -35,8 +35,6 @@ class HappitTracker extends StatelessWidget {
   }
 }
 
-
-
 class Habit {
   final String name;
   int heartCount;
@@ -54,9 +52,10 @@ class Habit {
     name: json['name'],
     heartCount: json['heartCount'],
     streakCount: json['streakCount'],
-    lastDoneDate: json['lastDoneDate'] != null
-        ? DateTime.parse(json['lastDoneDate'])
-        : null,
+    lastDoneDate:
+        json['lastDoneDate'] != null
+            ? DateTime.parse(json['lastDoneDate'])
+            : null,
   );
 
   Map<String, dynamic> toJson() => {
@@ -66,6 +65,7 @@ class Habit {
     'lastDoneDate': lastDoneDate?.toIso8601String(),
   };
 }
+
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
 
@@ -82,7 +82,11 @@ class OnboardingScreen extends StatelessWidget {
             const SizedBox(height: 20),
             const Text(
               "Welcome to Happit Tracker!",
-              style: TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: 24,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 12),
@@ -95,7 +99,10 @@ class OnboardingScreen extends StatelessWidget {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.orangeAccent,
-                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 12,
+                ),
               ),
               onPressed: () async {
                 final prefs = await SharedPreferences.getInstance();
@@ -104,8 +111,12 @@ class OnboardingScreen extends StatelessWidget {
                   MaterialPageRoute(builder: (_) => const HomePage()),
                 );
               },
-              child: const Text("Let's Start", style: TextStyle(color: Colors.white, fontSize: 16)),
-            )
+
+              child: const Text(
+                "Let's Start",
+                style: TextStyle(color: Colors.white, fontSize: 16),
+              ),
+            ),
           ],
         ),
       ),
@@ -141,28 +152,33 @@ class _HomePageState extends State<HomePage> {
       bool updated = false;
 
       setState(() {
-        habits = decoded.map((json) {
-          final h = Habit.fromJson(json);
+        habits =
+            decoded.map((json) {
+              final h = Habit.fromJson(json);
 
-          if (h.lastDoneDate != null) {
-            final lastDateOnly = DateTime(h.lastDoneDate!.year, h.lastDoneDate!.month, h.lastDoneDate!.day);
-            final missedDays = todayDateOnly.difference(lastDateOnly).inDays;
+              if (h.lastDoneDate != null) {
+                final lastDateOnly = DateTime(
+                  h.lastDoneDate!.year,
+                  h.lastDoneDate!.month,
+                  h.lastDoneDate!.day,
+                );
+                final missedDays =
+                    todayDateOnly.difference(lastDateOnly).inDays;
 
-            if (missedDays > 0) {
-              h.heartCount = (h.heartCount - missedDays).clamp(0, 5);
-              h.streakCount = 0;
-              updated = true;
-            }
-          }
+                if (missedDays > 0) {
+                  h.heartCount = (h.heartCount - missedDays).clamp(0, 5);
+                  h.streakCount = 0;
+                  updated = true;
+                }
+              }
 
-          return h;
-        }).toList();
+              return h;
+            }).toList();
       });
 
       if (updated) {
         saveHabits(); // Save updated penalties immediately
       }
-
     } else {
       await Future.delayed(const Duration(milliseconds: 500));
       askForFirstHabit();
@@ -180,45 +196,60 @@ class _HomePageState extends State<HomePage> {
     await showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF1E1E1E),
-        title: const Text('Welcome to Happit Tracker!', style: TextStyle(color: Colors.white)),
-        content: TextField(
-          controller: controller,
-          style: const TextStyle(color: Colors.white),
-          decoration: const InputDecoration(
-            labelText: 'Name your first habit',
-            labelStyle: TextStyle(color: Colors.white70),
-            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
+      builder:
+          (context) => AlertDialog(
+            backgroundColor: const Color(0xFF1E1E1E),
+            title: const Text(
+              'Welcome to Happit Tracker!',
+              style: TextStyle(color: Colors.white),
+            ),
+            content: TextField(
+              controller: controller,
+              style: const TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
+                labelText: 'Name your first habit',
+                labelStyle: TextStyle(color: Colors.white70),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white70),
+                ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  final name = controller.text.trim();
+                  if (name.isNotEmpty) {
+                    setState(() {
+                      habits = [Habit(name: name)];
+                    });
+                    saveHabits();
+                    Navigator.pop(context);
+                  }
+                },
+                child: const Text(
+                  'Add',
+                  style: TextStyle(color: Colors.orangeAccent),
+                ),
+              ),
+            ],
           ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              final name = controller.text.trim();
-              if (name.isNotEmpty) {
-                setState(() {
-                  habits = [Habit(name: name)];
-                });
-                saveHabits();
-                Navigator.pop(context);
-              }
-            },
-            child: const Text('Add', style: TextStyle(color: Colors.orangeAccent)),
-          ),
-        ],
-      ),
     );
   }
 
   void markHabitAsDone(int index) {
     final habit = habits[index];
     final todayDateOnly = DateTime(today.year, today.month, today.day);
-    final lastDateOnly = habit.lastDoneDate == null
-        ? null
-        : DateTime(habit.lastDoneDate!.year, habit.lastDoneDate!.month, habit.lastDoneDate!.day);
+    final lastDateOnly =
+        habit.lastDoneDate == null
+            ? null
+            : DateTime(
+              habit.lastDoneDate!.year,
+              habit.lastDoneDate!.month,
+              habit.lastDoneDate!.day,
+            );
 
-    if (lastDateOnly == null || todayDateOnly.difference(lastDateOnly).inDays > 0) {
+    if (lastDateOnly == null ||
+        todayDateOnly.difference(lastDateOnly).inDays > 0) {
       setState(() {
         habit.streakCount++;
         habit.heartCount = (habit.heartCount + 1).clamp(0, 5);
@@ -268,7 +299,11 @@ class _HomePageState extends State<HomePage> {
   bool shouldShowButton(Habit h) {
     if (h.lastDoneDate == null) return true;
     final todayOnly = DateTime(today.year, today.month, today.day);
-    final lastOnly = DateTime(h.lastDoneDate!.year, h.lastDoneDate!.month, h.lastDoneDate!.day);
+    final lastOnly = DateTime(
+      h.lastDoneDate!.year,
+      h.lastDoneDate!.month,
+      h.lastDoneDate!.day,
+    );
     return todayOnly.difference(lastOnly).inDays > 0;
   }
 
@@ -276,34 +311,43 @@ class _HomePageState extends State<HomePage> {
     final controller = TextEditingController();
     await showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF1E1E1E),
-        title: const Text('New Habit', style: TextStyle(color: Colors.white)),
-        content: TextField(
-          controller: controller,
-          style: const TextStyle(color: Colors.white),
-          decoration: const InputDecoration(
-            labelText: 'Habit name',
-            labelStyle: TextStyle(color: Colors.white70),
-            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
+      builder:
+          (context) => AlertDialog(
+            backgroundColor: const Color(0xFF1E1E1E),
+            title: const Text(
+              'New Habit',
+              style: TextStyle(color: Colors.white),
+            ),
+            content: TextField(
+              controller: controller,
+              style: const TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
+                labelText: 'Habit name',
+                labelStyle: TextStyle(color: Colors.white70),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white70),
+                ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  final name = controller.text.trim();
+                  if (name.isNotEmpty) {
+                    setState(() {
+                      habits.add(Habit(name: name));
+                    });
+                    saveHabits();
+                    Navigator.pop(context);
+                  }
+                },
+                child: const Text(
+                  'Add',
+                  style: TextStyle(color: Colors.orangeAccent),
+                ),
+              ),
+            ],
           ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              final name = controller.text.trim();
-              if (name.isNotEmpty) {
-                setState(() {
-                  habits.add(Habit(name: name));
-                });
-                saveHabits();
-                Navigator.pop(context);
-              }
-            },
-            child: const Text('Add', style: TextStyle(color: Colors.orangeAccent)),
-          ),
-        ],
-      ),
     );
   }
 
@@ -320,128 +364,163 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: addNewHabit,
+          IconButton(icon: const Icon(Icons.add), onPressed: addNewHabit),
+        ],
+      ),
+      body:
+          habits.isEmpty
+              ? const Center(
+                child: Text(
+                  "No habits yet. Click + to add your first habit!",
+                  style: TextStyle(color: Colors.white70),
+                ),
+              )
+              : LayoutBuilder(
+                builder: (context, constraints) {
+                  return GridView.builder(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: habits.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 500, // Flexible columns
+                          mainAxisSpacing: 16,
+                          crossAxisSpacing: 16,
+                          mainAxisExtent: 340,
+                        ),
+                    itemBuilder: (context, index) {
+                      final h = habits[index];
+                      return buildHabitCard(h, index);
+                    },
+                  );
+                },
+              ),
+    );
+  }
+
+  Widget buildHabitCard(Habit h, int index) {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFF121212),
+        border: Border.all(
+          color: h.streakCount >= 10 ? Colors.orangeAccent : Colors.white10,
+          width: h.streakCount >= 30 ? 3 : 1,
+        ),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(50),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
-      body: habits.isEmpty
-          ? const Center(
-        child: Text(
-          "No habits yet. Click + to add your first habit!",
-          style: TextStyle(color: Colors.white70),
-        ),
-      )
-          : ListView.builder(
-        itemCount: habits.length,
-        padding: const EdgeInsets.all(16),
-        itemBuilder: (context, index) {
-          final h = habits[index];
-          return Container(
-            margin: const EdgeInsets.symmetric(vertical: 10),
-            decoration: BoxDecoration(
-              color: const Color(0xFF121212),
-              border: Border.all(
-                color: h.streakCount >= 10 ? Colors.orangeAccent : Colors.white10,
-                width: h.streakCount >= 30 ? 3 : 1,
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Text(
+                  h.name,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha:0.2),
-                  blurRadius: 8,
-                  offset: const Offset(0, 4),
-                )
-              ],
+              IconButton(
+                icon: const Icon(Icons.delete, color: Colors.redAccent),
+                onPressed: () => confirmDelete(index),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(
+              5,
+              (i) => Icon(
+                i < h.heartCount ? Icons.favorite : Icons.favorite_border,
+                color: Colors.redAccent,
+                size: 20,
+              ),
             ),
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      h.name,
-                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.redAccent),
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            backgroundColor: const Color(0xFF1E1E1E),
-                            title: const Text("Delete Habit", style: TextStyle(color: Colors.white)),
-                            content: const Text("Are you sure you want to delete this habit?", style: TextStyle(color: Colors.white70)),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.of(context).pop(),
-                                child: const Text("Cancel", style: TextStyle(color: Colors.grey)),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  deleteHabit(index);
-                                  Navigator.of(context).pop();
-                                },
-                                child: const Text("Delete", style: TextStyle(color: Colors.redAccent)),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-
-                    )
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(5, (i) => Icon(
-                    i < h.heartCount ? Icons.favorite : Icons.favorite_border,
-                    color: Colors.redAccent,
-                  )),
-                ),
-                const SizedBox(height: 12),
-                Image.asset(getEmotionImage(h), height: 100),
-                const SizedBox(height: 12),
-                Text(
-                  getMoodText(h),
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 16, color: Colors.white),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  '🔥 Streak: ${h.streakCount} days',
-                  style: const TextStyle(color: Color(0xFFEFA68F)),
-                ),
-                const SizedBox(height: 12),
-                if (shouldShowButton(h))
-                  ElevatedButton(
-                    onPressed: () => markHabitAsDone(index),
-                    style: ElevatedButton.styleFrom(
-                      shape: const CircleBorder(),
-                      padding: const EdgeInsets.all(20),
-                      backgroundColor: const Color(0xFFFEA571),
-                      elevation: 6,
-                      shadowColor: Colors.black45,
-                      side: const BorderSide(color: Color(0xFFFFD6B0), width: 2),
-                    ),
-                    child: const Icon(
-                      Icons.check_rounded,
-                      color: Colors.white,
-                      size: 28,
-                    ),
-                  )
-                else
-                  const Text("✔ Already marked today", style: TextStyle(color: Colors.greenAccent)),
-              ],
+          ),
+          const SizedBox(height: 12),
+          Image.asset(getEmotionImage(h), height: 80),
+          const SizedBox(height: 12),
+          Text(
+            getMoodText(h),
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 14, color: Colors.white),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            '🔥 Streak: ${h.streakCount} days',
+            style: const TextStyle(color: Color(0xFFEFA68F)),
+          ),
+          const SizedBox(height: 12),
+          if (shouldShowButton(h))
+            ElevatedButton(
+              onPressed: () => markHabitAsDone(index),
+              style: ElevatedButton.styleFrom(
+                shape: const CircleBorder(),
+                padding: const EdgeInsets.all(16),
+                backgroundColor: const Color(0xFFFEA571),
+                elevation: 6,
+                side: const BorderSide(color: Color(0xFFFFD6B0), width: 2),
+              ),
+              child: const Icon(Icons.check_rounded, color: Colors.white),
+            )
+          else
+            const Text(
+              "✔ Already marked today",
+              style: TextStyle(color: Colors.greenAccent),
             ),
-          );
-        },
+        ],
       ),
     );
   }
-}
 
+  void confirmDelete(int index) {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            backgroundColor: const Color(0xFF1E1E1E),
+            title: const Text(
+              "Delete Habit",
+              style: TextStyle(color: Colors.white),
+            ),
+            content: const Text(
+              "Are you sure you want to delete this habit?",
+              style: TextStyle(color: Colors.white70),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text(
+                  "Cancel",
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  deleteHabit(index);
+                  Navigator.of(context).pop();
+                },
+                child: const Text(
+                  "Delete",
+                  style: TextStyle(color: Colors.redAccent),
+                ),
+              ),
+            ],
+          ),
+    );
+  }
+}
